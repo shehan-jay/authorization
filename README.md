@@ -137,3 +137,7 @@ Each authentication method has its own server and client implementation. To run 
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Contributing
+
+Contributions are welcome! If you find any issues or bugs, please feel free to open an issue or submit a pull request. Your help in improving this project is greatly appreciated.
