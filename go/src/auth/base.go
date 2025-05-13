@@ -4,42 +4,21 @@ import (
 	"net/http"
 )
 
-// AuthType represents the type of authentication
-type AuthType string
-
-const (
-	NoAuth          AuthType = "none"
-	BasicAuth       AuthType = "basic"
-	BearerToken     AuthType = "bearer"
-	JWTBearer       AuthType = "jwt"
-	DigestAuth      AuthType = "digest"
-	OAuth1          AuthType = "oauth1"
-	OAuth2          AuthType = "oauth2"
-	HawkAuth        AuthType = "hawk"
-	AWSSignature    AuthType = "aws"
-	NTLMAuth        AuthType = "ntlm"
-	APIKey          AuthType = "apikey"
-	AkamaiEdgeGrid  AuthType = "akamai"
-	ASAPAuth        AuthType = "asap"
-	OIDCAuth        AuthType = "oidc"
-	SAMLAuth        AuthType = "saml"
-)
-
 // Authenticator defines the interface for all authentication methods
 type Authenticator interface {
 	// Authenticate authenticates the request
 	Authenticate(r *http.Request) error
 	// GetType returns the type of authentication
-	GetType() AuthType
+	GetType() string
 }
 
 // BaseAuth provides common functionality for all auth implementations
 type BaseAuth struct {
-	Type AuthType
+	Type string
 }
 
 // GetType returns the authentication type
-func (b *BaseAuth) GetType() AuthType {
+func (b *BaseAuth) GetType() string {
 	return b.Type
 }
 
