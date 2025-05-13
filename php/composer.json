@@ -1,0 +1,16 @@
+{
+    "name": "auth/authentication",
+    "description": "Authentication library for PHP",
+    "type": "library",
+    "require": {
+        "php": ">=8.0",
+        "psr/http-message": "^1.0",
+        "psr/http-server-middleware": "^1.0",
+        "guzzlehttp/psr7": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Auth\\": "src/Auth/"
+        }
+    }
+} 
