@@ -2,43 +2,35 @@
 
 namespace Tests\Auth;
 
-use Auth\BasicAuth;
+use Auth\BearerToken;
 
-class BasicAuthTest extends TestUtils
+class BearerTokenTest extends TestUtils
 {
     private $auth;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->auth = new BasicAuth('test-user', 'test-password');
+        $this->auth = new BearerToken('valid-token');
     }
 
-    public function testValidCredentials(): void
+    public function testValidToken(): void
     {
         $request = $this->createTestRequest('GET', [
-            'Authorization' => 'Basic ' . base64_encode('test-user:test-password')
+            'Authorization' => 'Bearer valid-token'
         ]);
         $this->runAuthTest($this->auth, $request, 200, false);
     }
 
-    public function testInvalidUsername(): void
+    public function testInvalidToken(): void
     {
         $request = $this->createTestRequest('GET', [
-            'Authorization' => 'Basic ' . base64_encode('wrong-user:test-password')
+            'Authorization' => 'Bearer invalid-token'
         ]);
         $this->runAuthTest($this->auth, $request, 401, true);
     }
 
-    public function testInvalidPassword(): void
-    {
-        $request = $this->createTestRequest('GET', [
-            'Authorization' => 'Basic ' . base64_encode('test-user:wrong-password')
-        ]);
-        $this->runAuthTest($this->auth, $request, 401, true);
-    }
-
-    public function testMissingCredentials(): void
+    public function testMissingToken(): void
     {
         $request = $this->createTestRequest('GET');
         $this->runAuthTest($this->auth, $request, 401, true);
@@ -47,7 +39,7 @@ class BasicAuthTest extends TestUtils
     public function testMalformedHeader(): void
     {
         $request = $this->createTestRequest('GET', [
-            'Authorization' => 'Basic invalid-base64'
+            'Authorization' => 'Bearer'
         ]);
         $this->runAuthTest($this->auth, $request, 401, true);
     }
@@ -55,13 +47,13 @@ class BasicAuthTest extends TestUtils
     public function testInvalidScheme(): void
     {
         $request = $this->createTestRequest('GET', [
-            'Authorization' => 'Bearer test-token'
+            'Authorization' => 'Basic dGVzdC11c2VyOnRlc3QtcGFzc3dvcmQ='
         ]);
         $this->runAuthTest($this->auth, $request, 401, true);
     }
 
     public function testGetType(): void
     {
-        $this->assertAuthType($this->auth, 'basic');
+        $this->assertAuthType($this->auth, 'bearer');
     }
 } 

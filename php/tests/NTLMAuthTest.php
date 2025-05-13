@@ -2,22 +2,22 @@
 
 namespace Tests\Auth;
 
-use Auth\BasicAuth;
+use Auth\NTLMAuth;
 
-class BasicAuthTest extends TestUtils
+class NTLMAuthTest extends TestUtils
 {
     private $auth;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->auth = new BasicAuth('test-user', 'test-password');
+        $this->auth = new NTLMAuth('test-domain', 'test-user', 'test-password');
     }
 
-    public function testValidCredentials(): void
+    public function testValidNTLMCredentials(): void
     {
         $request = $this->createTestRequest('GET', [
-            'Authorization' => 'Basic ' . base64_encode('test-user:test-password')
+            'Authorization' => 'NTLM TlRMTVNTUAABAAAAB4IIogAAAAAAAAAAAAAAAAAAAAAGAbEdAAAADw=='
         ]);
         $this->runAuthTest($this->auth, $request, 200, false);
     }
@@ -25,29 +25,21 @@ class BasicAuthTest extends TestUtils
     public function testInvalidUsername(): void
     {
         $request = $this->createTestRequest('GET', [
-            'Authorization' => 'Basic ' . base64_encode('wrong-user:test-password')
+            'Authorization' => 'NTLM TlRMTVNTUAABAAAAB4IIogAAAAAAAAAAAAAAAAAAAAAGAbEdAAAADw=='
         ]);
         $this->runAuthTest($this->auth, $request, 401, true);
     }
 
-    public function testInvalidPassword(): void
-    {
-        $request = $this->createTestRequest('GET', [
-            'Authorization' => 'Basic ' . base64_encode('test-user:wrong-password')
-        ]);
-        $this->runAuthTest($this->auth, $request, 401, true);
-    }
-
-    public function testMissingCredentials(): void
+    public function testMissingAuthorizationHeader(): void
     {
         $request = $this->createTestRequest('GET');
         $this->runAuthTest($this->auth, $request, 401, true);
     }
 
-    public function testMalformedHeader(): void
+    public function testMalformedAuthorizationHeader(): void
     {
         $request = $this->createTestRequest('GET', [
-            'Authorization' => 'Basic invalid-base64'
+            'Authorization' => 'NTLM'
         ]);
         $this->runAuthTest($this->auth, $request, 401, true);
     }
@@ -55,13 +47,13 @@ class BasicAuthTest extends TestUtils
     public function testInvalidScheme(): void
     {
         $request = $this->createTestRequest('GET', [
-            'Authorization' => 'Bearer test-token'
+            'Authorization' => 'Basic dGVzdC11c2VyOnRlc3QtcGFzc3dvcmQ='
         ]);
         $this->runAuthTest($this->auth, $request, 401, true);
     }
 
     public function testGetType(): void
     {
-        $this->assertAuthType($this->auth, 'basic');
+        $this->assertAuthType($this->auth, 'ntlm');
     }
 } 

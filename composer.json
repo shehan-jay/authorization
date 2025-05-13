@@ -12,12 +12,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Auth\\": "src/auth/"
+            "Auth\\": "php/src/auth/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "php/tests/"
         }
     }
 } 
