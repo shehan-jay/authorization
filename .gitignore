@@ -84,4 +84,4 @@ logs/
 
 # Build artifacts
 /build/
-/dist/ 
+/dist/
