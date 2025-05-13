@@ -1,6 +1,6 @@
 # Authentication Methods Demo
 
-This project demonstrates various authentication methods in both Python and Java. Each authentication method is implemented as a separate module with both server and client components.
+This project demonstrates various authentication methods in Go, PHP, Python, and Java. Each authentication method is implemented as a separate module with both server and client components.
 
 ## Project Structure
 
