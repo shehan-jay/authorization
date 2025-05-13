@@ -6,40 +6,82 @@ This project demonstrates various authentication methods in both Python and Java
 
 ```
 .
-├── python/
+├── go/
 │   └── src/
-│       ├── no_auth/
-│       ├── basic_auth/
-│       ├── bearer_token/
-│       ├── jwt_bearer/
-│       ├── digest_auth/
-│       ├── oauth1/
-│       ├── oauth2/
-│       ├── hawk/
-│       ├── aws_signature/
-│       ├── ntlm/
-│       ├── api_key/
-│       ├── akamai/
-│       └── asap/
-└── java/
+│       └── auth/
+│           ├── base.go
+│           ├── no_auth.go
+│           ├── basic_auth.go
+│           ├── bearer_token.go
+│           ├── jwt_bearer.go
+│           ├── digest_auth.go
+│           ├── oauth1.go
+│           ├── oauth2.go
+│           ├── hawk_auth.go
+│           ├── aws_signature.go
+│           ├── ntlm_auth.go
+│           ├── api_key.go
+│           ├── akamai_edgegrid.go
+│           ├── asap_auth.go
+│           ├── oidc_auth.go
+│           └── saml_auth.go
+├── java/
+│   └── src/
+│       └── main/
+│           └── java/
+│               └── com/
+│                   └── auth/
+│                       ├── noauth/
+│                       ├── basic/
+│                       ├── bearer/
+│                       ├── jwt/
+│                       ├── digest/
+│                       ├── oauth1/
+│                       ├── oauth2/
+│                       ├── hawk/
+│                       ├── aws/
+│                       ├── ntlm/
+│                       ├── apikey/
+│                       ├── akamai/
+│                       ├── asap/
+│                       ├── oidc/
+│                       └── saml/
+├── php/
+│   └── src/
+│       └── Auth/
+│           ├── BaseAuth.php
+│           ├── NoAuth.php
+│           ├── BasicAuth.php
+│           ├── BearerToken.php
+│           ├── JWTBearer.php
+│           ├── DigestAuth.php
+│           ├── OAuth1.php
+│           ├── OAuth2.php
+│           ├── HawkAuth.php
+│           ├── AWSSignature.php
+│           ├── NTLMAuth.php
+│           ├── APIKey.php
+│           ├── AkamaiEdgeGrid.php
+│           ├── ASAPAuth.php
+│           ├── OIDCAuth.php
+│           └── SAMLAuth.php
+└── python/
     └── src/
-        └── main/
-            └── java/
-                └── com/
-                    └── auth/
-                        ├── noauth/
-                        ├── basic/
-                        ├── bearer/
-                        ├── jwt/
-                        ├── digest/
-                        ├── oauth1/
-                        ├── oauth2/
-                        ├── hawk/
-                        ├── aws/
-                        ├── ntlm/
-                        ├── apikey/
-                        ├── akamai/
-                        └── asap/
+        ├── no_auth/
+        ├── basic_auth/
+        ├── bearer_token/
+        ├── jwt_bearer/
+        ├── digest_auth/
+        ├── oauth1/
+        ├── oauth2/
+        ├── hawk/
+        ├── aws_signature/
+        ├── ntlm/
+        ├── api_key/
+        ├── akamai/
+        ├── asap/
+        ├── oidc/
+        └── saml/
 ```
 
 ## Authentication Methods
@@ -102,30 +144,39 @@ Each authentication method has its own server and client implementation. To run 
 
 1. Start the server:
    ```bash
-   # Python
-   python python/src/<auth_method>/server.py
+   # Go
+   go run go/src/auth/<auth_method>/server.go
 
    # Java
    ./mvnw spring-boot:run -pl java
+
+   # PHP
+   php -S localhost:8000 -t php/src
+
+   # Python
+   python python/src/<auth_method>/server.py
    ```
 
 2. Run the client:
    ```bash
-   # Python
-   python python/src/<auth_method>/client.py
+   # Go
+   go run go/src/auth/<auth_method>/client.go
 
    # Java
    ./mvnw exec:java -pl java -Dexec.mainClass="com.auth.<auth_method>.<AuthMethod>Client"
+
+   # PHP
+   php php/src/<auth_method>/client.php
+
+   # Python
+   python python/src/<auth_method>/client.py
    ```
 
 ## Requirements
 
-### Python
-- Python 3.8+
-- Flask
-- Requests
-- PyJWT
-- cryptography
+### Go
+- Go 1.16+
+- Standard library
 
 ### Java
 - Java 11+
@@ -133,6 +184,19 @@ Each authentication method has its own server and client implementation. To run 
 - Spring Security
 - JWT
 - Apache HttpClient
+
+### PHP
+- PHP 8.0+
+- Composer
+- PSR-7 HTTP Message
+- PSR-15 HTTP Server Middleware
+
+### Python
+- Python 3.8+
+- Flask
+- Requests
+- PyJWT
+- cryptography
 
 ## License
 
